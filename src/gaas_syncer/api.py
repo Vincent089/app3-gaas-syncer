@@ -11,8 +11,8 @@
 import logging
 from uuid import UUID
 
-from flask import Blueprint, request
-from corekit.flask import success_response, bad_response
+from flask import Blueprint
+from corekit.flask import success_response
 
 from gaas_syncer.schema import ClientSchema, VlanSchema
 from gaas_syncer.service import ClientService, VlanService
