@@ -1,0 +1,5 @@
+[run]
+omit =
+    src/config.py
+    src/*/main.py
+    src/*/schemas.py

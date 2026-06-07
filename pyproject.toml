@@ -1,0 +1,32 @@
+[project]
+name = "gaas_syncer"
+version = "0.1.0"
+description = "App3 syncer service for GaaS entities"
+authors = [
+    { name = "Vincent Corriveau", email = "vincent.corriveau89@gmail.com" }
+]
+
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+
+dependencies = [
+    "corekit @ git+https://github.com/Vincent089/app3-corekit.git@v0.1.1",
+    "Flask==3.1.3",
+    "sqlalchemy==2.0.48",
+    "psycopg2-binary==2.9.12",
+    "marshmallow==4.3.0",
+    "python-dotenv==1.2.2",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+py-modules = ["config"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

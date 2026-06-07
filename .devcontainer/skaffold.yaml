@@ -1,0 +1,13 @@
+apiVersion: skaffold/v4beta8
+kind: Config
+metadata: 
+  name: shrdsvc-gaas-syncer
+build:
+  artifacts:
+    - image: gaas-syncer-service
+      context: .
+      docker:
+        dockerfile: .devcontainer/Dockerfile
+manifests: 
+  rawYaml:
+    - .devcontainer/k8-*.yaml
