@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gaas-syncer
+  namespace: app3
+  labels:
+    app: gaas-syncer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gaas-syncer
+  template:
+    metadata:
+      labels:
+        app: gaas-syncer
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "80"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+        - name: gaas-syncer
+          # TODO: replace with registry
+          image: app3-gaas-syncer
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: common-config
+            - secretRef:
+                name: common-db-secret
+          env:
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: gaas-syncer-db-secret
+                  key: DB_NAME
+            - name: DB_URL
+              value: "$(DB_DRIVER)://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"
+            - name: SERVICE_NAME
+              value: "gaas-syncer-service"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "50m"
+            limits:
+              memory: "256Mi"
+              cpu: "300m"

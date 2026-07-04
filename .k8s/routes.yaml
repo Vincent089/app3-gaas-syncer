@@ -1,0 +1,26 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: gaas-syncer-routes
+  namespace: app3
+  annotations:
+    konghq.com/plugins: session-validator,redis-cache
+spec:
+  parentRefs:
+  - name: kong
+    namespace: infra-gateway
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: '/api/v1/clients'
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: '/v1/gaas/clients'
+    backendRefs:
+    - name: gaas-syncer
+      kind: Service
+      port: 80
