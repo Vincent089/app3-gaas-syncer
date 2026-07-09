@@ -8,6 +8,9 @@
 #  distributed under the License is distributed on an "AS IS" BASIS,
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  -----------------------------------------------------------------------------
+import logging
+import sys
+
 from flask import Flask
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -35,7 +38,26 @@ def create_flask_app():
     return app
 
 
+def run_cron(command: str):
+    logger = logging.getLogger(f'cron')
+
+    logger.info('Starting cron', extra={ 'command': command })
+    output = dict()
+
+    if command == '<name of the cronjob>':
+        pass
+    else:
+        logger.error('Unknown cron command', extra={ 'command': command })
+        sys.exit(1)
+
+    logger.info('Cron completed', extra={ 'command': command, **output })
+    sys.exit()
+
+
 app = create_flask_app()
 
 if __name__ == '__main__':
-    app.run(host=Config.HOST, port=Config.PORT)
+    if len(sys.argv) >= 3 and sys.argv[1] == 'cron':
+        run_cron(sys.argv[2])
+    else:
+        app.run(host=Config.HOST, port=Config.PORT)
