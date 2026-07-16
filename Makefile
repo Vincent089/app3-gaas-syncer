@@ -5,7 +5,7 @@ uninstall:
 	pip uninstall -y gaas_syncer
 
 run:
-	python src/vlan_manager/main.py
+	python src/gaas_syncer/main.py
 
 unit-test:
 	pytest tests/unit

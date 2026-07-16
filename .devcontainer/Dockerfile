@@ -21,7 +21,7 @@ ENV TZ="Canada/Eastern" \
 
 WORKDIR /var/www/html
 
-COPY src/ src/
+COPY src/ ./
 COPY --from=builder /install /usr/local
 
 EXPOSE 80
