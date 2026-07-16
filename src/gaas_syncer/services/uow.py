@@ -9,8 +9,8 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  -----------------------------------------------------------------------------
 import logging
-import gaas_syncer.db as db
-from gaas_syncer.repository import ClientRepository, VlanRepository
+import gaas_syncer.adapters.db as db
+from gaas_syncer.adapters.repository import ClientRepository, VlanRepository
 
 logger = logging.getLogger(__name__)
 

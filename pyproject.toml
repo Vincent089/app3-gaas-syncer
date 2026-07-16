@@ -1,6 +1,6 @@
 [project]
 name = "gaas_syncer"
-version = "0.1.0"
+version = "0.2.0"
 description = "App3 syncer service for GaaS entities"
 authors = [
     { name = "Vincent Corriveau", email = "vincent.corriveau89@gmail.com" }

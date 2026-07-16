@@ -10,8 +10,10 @@
 #  -----------------------------------------------------------------------------
 import uuid
 from typing import Optional
+
 from sqlalchemy.orm import Session
-from gaas_syncer.models import Client, Vlan
+
+from gaas_syncer.domain.models import Client, Vlan
 
 
 class ClientRepository:

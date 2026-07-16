@@ -10,7 +10,7 @@
 #  -----------------------------------------------------------------------------
 from sqlalchemy import QueuePool, create_engine, event
 from sqlalchemy.inspection import inspect
-from sqlalchemy.orm import sessionmaker, scoped_session, DeclarativeBase, Session
+from sqlalchemy.orm import DeclarativeBase, Session, scoped_session, sessionmaker
 
 engine = None
 SessionLocal = None
@@ -69,6 +69,6 @@ def init_db(url: str, echo: bool = False):
     )
     SessionLocal = scoped_session(sessionmaker(bind=engine, expire_on_commit=False))
 
-    from gaas_syncer import models  # noqa
+    from gaas_syncer.domain import models  # noqa
     Base.metadata.create_all(bind=engine)
     register_collection_listeners()

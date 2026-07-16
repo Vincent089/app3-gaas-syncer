@@ -11,11 +11,11 @@
 import logging
 from uuid import UUID
 
-from flask import Blueprint
 from corekit.flask import success_response
+from flask import Blueprint
 
-from gaas_syncer.schema import ClientSchema, VlanSchema
-from gaas_syncer.service import ClientService, VlanService
+from gaas_syncer.services import ClientService, VlanService
+from gaas_syncer.transport.schema import ClientSchema, VlanSchema
 
 logger = logging.getLogger(__name__)
 

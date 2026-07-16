@@ -13,10 +13,10 @@ import uuid
 from dataclasses import dataclass
 from typing import Optional
 
-from sqlalchemy import Integer, String, UUID, Text
+from sqlalchemy import Integer, String, Text, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
-from gaas_syncer.db import Base
+from gaas_syncer.adapters.db import Base
 
 logger = logging.getLogger(__name__)
 
