@@ -13,12 +13,15 @@ import sys
 from corekit.cron import CronRunner
 from corekit.flask import register_middleware
 from corekit.logging import setup_logging
+from corekit.message_queue import RedisStreamConsumer
 from flask import Flask
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 import config
 from gaas_syncer.adapters.db import init_db
 from gaas_syncer.transport.api import clients_v1, vlans_v1
+from gaas_syncer.transport.crons import syncer_crons
+from gaas_syncer.transport.stream import event_router
 
 setup_logging(service_name=config.SERVICE_NAME, log_level=config.LOG_LEVEL)
 init_db(url=config.DB_URL)
@@ -39,17 +42,34 @@ def create_flask_app():
 
 
 def create_cron_runner():
-    cron_runner = CronRunner()
-    #cron_runner.include_router()
+    cron = CronRunner()
+    cron.register_task_router(syncer_crons)
 
-    return cron_runner
+    return cron
+
+
+def create_redis_stream():
+    stream = RedisStreamConsumer(
+            host=config.STREAM_HOST,
+            port=config.STREAM_PORT,
+            consumer_group=f'{config.SERVICE_NAME}-consumer',
+            consumer_name=config.POD_NAME
+    )
+    stream.register_event_router(event_router)
+
+    return stream
 
 
 app = create_flask_app()
-cron_runner = create_cron_runner()
 
 if __name__ == '__main__':
     if len(sys.argv) >= 3 and sys.argv[1] == 'cron':
-        cron_runner.execute(sys.argv[2])
+        cron = create_cron_runner()
+        cron.execute(sys.argv[2], *sys.argv[3:])
+
+    elif sys.argv[1] == 'stream':
+        stream = create_redis_stream()
+        stream.start_listening()
+
     else:
         app.run(host=config.HOST, port=config.PORT)
