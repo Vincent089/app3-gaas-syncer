@@ -4,7 +4,7 @@ metadata:
   name: gaas-syncer-routes
   namespace: app3
   annotations:
-    konghq.com/plugins: session-validator,redis-cache
+    konghq.com/plugins: session-validator,redis-cache,opentelemetry,prometheus
 spec:
   parentRefs:
   - name: kong

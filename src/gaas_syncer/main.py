@@ -14,6 +14,7 @@ from corekit.cron import CronRunner
 from corekit.flask import register_middleware
 from corekit.logging import setup_logging
 from corekit.message_queue import RedisStreamConsumer
+from corekit.telemetry.otel import init_otel
 from flask import Flask
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -25,6 +26,7 @@ from gaas_syncer.transport.stream import event_router
 
 setup_logging(service_name=config.SERVICE_NAME, log_level=config.LOG_LEVEL)
 init_db(url=config.DB_URL)
+init_otel(service_name=config.SERVICE_NAME, environment=config.APP_ENV)
 
 
 def create_flask_app():

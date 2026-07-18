@@ -12,7 +12,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "corekit @ git+https://github.com/Vincent089/app3-corekit.git@v0.5.0",
+    "corekit @ git+https://github.com/Vincent089/app3-corekit.git@v0.6.0",
     "Flask==3.1.3",
     "sqlalchemy==2.0.48",
     "psycopg2-binary==2.9.12",
